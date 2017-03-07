@@ -5,8 +5,8 @@ provide your team information in below.
        Format!
 
  === User information ===
- Group: 
- User 1: 
- SSN: X
- User 2: 
- SSN: X
+ Group: La puta madre
+ User 1: Gunnlaugur15 
+ SSN: 1707952889
+ User 2: Hjalmarh15
+ SSN: 1510933379
