@@ -48,7 +48,8 @@ void *vehicles(void *arg)
     //(see above).
     // Note that the calls can be moved to helper 
     // functions if needed..
-    int place = vehicle_arrive(info);
+    
+	int place = vehicle_arrive(info);
 	P(&thread_mutex);
 	vehicle_drive(info);
     vehicle_leave(info);
