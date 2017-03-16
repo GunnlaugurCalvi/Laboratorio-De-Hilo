@@ -6,6 +6,12 @@ int K;
 int num_vehicles;
 int num_pedestrians;
 
+sem_t thread_mutex;     //muna breyta nafni a mutex freysteinn segir se ljott
+
+pthread_t *pedestrian_thread;
+pthread_t *vehicle_thread;    
+
+
 /* INIT SECTION *********************************/
 void init()
 {
@@ -13,6 +19,10 @@ void init()
     /* YOU MUST IMPLEMENT THIS FUNCTION         */
     /* HERE YOU COULD CREATE THE LOCKS ETC.     */
     /********************************************/ 
+ 	sem_init(&thread_mutex, 0, 1);
+    pedestrian_thread = malloc(sizeof(pthread_t) * num_pedestrians);
+    vehicle_thread = malloc(sizeof(pthread_t) * num_vehicles);
+
 }
 /**** END OF INIT *******************************/
 
@@ -41,8 +51,12 @@ void *vehicles(void *arg)
     // Note that the calls can be moved to helper 
     // functions if needed..
     int place = vehicle_arrive(info);
+	
+	P(&thread_mutex);
     vehicle_drive(info);
     vehicle_leave(info);
+    V(&thread_mutex);
+    
 
     // end of the threads main function 
     // time to die?
@@ -55,6 +69,8 @@ void spawn_vehicle(thread_info *arg)
      * MUST USE vehicles(void *arg) AS THE 
      * FUNCTION TO EXECUTE
      */
+
+	 Pthread_create(&vehicle_thread[arg->thread_nr], 0, vehicles, arg);
 }
 /**** END OF VEHICLE THREAD CODE ****************/
 
@@ -81,8 +97,10 @@ void *pedestrians(void *arg)
     // Note that the calls can also be made in 
     //helper functions
     int place = pedestrian_arrive(info);
+    P(&thread_mutex);
     pedestrian_walk(info);
     pedestrian_leave(info);
+    V(&thread_mutex);
 
     return NULL;
 }
@@ -93,6 +111,8 @@ void spawn_pedestrian(thread_info *arg)
      * MUST USE pedestrians(void *arg) AS 
      * THE FUNCTION TO EXECUTE
      */
+
+	 Pthread_create(&pedestrian_thread[arg->thread_nr], 0, pedestrians, arg);
 }
 /**** END OF VEHICLE THREAD CODE ****************/
 
@@ -103,5 +123,15 @@ void clean()
     /* YOU MUST IMPLEMENT THIS FUNCTION         */
     /* HERE YOU DO ANY NECCESSARY CLEAN UP      */
     /********************************************/ 
+	for(int i = 0; i < num_pedestrians; i++){
+		Pthread_join(pedestrian_thread[i], NULL);
+    }
+	for(int i = 0; i < num_vehicles; i++){
+		Pthread_join(vehicle_thread[i], NULL);
+	}
+	
+	free(pedestrian_thread);
+	free(vehicle_thread);
+
 }
 /**** END OF CLEAN UP ***************************/

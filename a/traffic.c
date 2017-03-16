@@ -41,7 +41,7 @@ void *vehicles(void *arg)
 
     // Get the argument pass via the void* 
     thread_info *info = arg;
-
+	
     // Following are the needed calls to the 
     //functions in traffic.c 
     // You must call them in the proper order 
@@ -49,7 +49,7 @@ void *vehicles(void *arg)
     // Note that the calls can be moved to helper 
     // functions if needed..
     int place = vehicle_arrive(info);
-    P(&thread_mutex);
+	P(&thread_mutex);
 	vehicle_drive(info);
     vehicle_leave(info);
 	V(&thread_mutex);
@@ -124,5 +124,7 @@ void clean()
         Pthread_join(vehicle_thread[i], NULL);
     }
 
+	free(pedestrian_thread);
+	free(vehicle_thread);
 }
 /**** END OF CLEAN UP ***************************/

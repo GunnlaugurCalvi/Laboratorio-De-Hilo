@@ -9,10 +9,10 @@
 [TL]: wait 3 2 queue_nr 3
 [TL]: wait 0 3 queue_nr 4
 [TL]: wait 3 3 queue_nr 4
-[TL]: wait 0 4 queue_nr 5
-[TL]: wait 3 4 queue_nr 5
 [TL]: cross pedestrian 0 end nr 0
 [TL]: cross vehicle 3 start nr 0
+[TL]: wait 0 4 queue_nr 5
+[TL]: wait 3 4 queue_nr 5
 [TL]: wait 0 5 queue_nr 6
 [TL]: wait 3 5 queue_nr 6
 [TL]: wait 0 6 queue_nr 7
